@@ -267,7 +267,7 @@ public class BolgerMichelleTestTask1 {
 
         Period periodStay = new Period(10,13);
         rate = new Rate(CarParkKind.VISITOR,normalRate,reducedRate,reducedPeriods,normalPeriods);
-        BigDecimal expected = new BigDecimal(15);
+        BigDecimal expected = new BigDecimal(2.5);
         Assertions.assertEquals(expected,rate.calculate(periodStay));
     }
 
@@ -288,7 +288,7 @@ public class BolgerMichelleTestTask1 {
 
         Period periodStay = new Period(6,15);
         rate = new Rate(CarParkKind.STAFF,normalRate,reducedRate,reducedPeriods,normalPeriods);
-        BigDecimal expected = new BigDecimal(30);
+        BigDecimal expected = new BigDecimal(16);
         Assertions.assertEquals(expected,rate.calculate(periodStay));
     }
 
@@ -433,7 +433,7 @@ public class BolgerMichelleTestTask1 {
         BigDecimal normalRate = new BigDecimal(5);
         BigDecimal reducedRate = new BigDecimal(3);
         rate = new Rate(CarParkKind.STAFF,normalRate,reducedRate,reducedPeriods,normalPeriods);
-        BigDecimal expected = new BigDecimal(16);
+        BigDecimal expected = new BigDecimal(14);
         BigDecimal result =  rate.calculate(new Period(9,14));
         Assertions.assertEquals(expected,result);
     }
@@ -450,7 +450,7 @@ public class BolgerMichelleTestTask1 {
         BigDecimal normalRate = new BigDecimal(5);
         BigDecimal reducedRate = new BigDecimal(3);
         rate = new Rate(CarParkKind.STAFF,new BigDecimal(5),new BigDecimal(3),reducedPeriods,normalPeriods);
-        BigDecimal expected = new BigDecimal(11);
+        BigDecimal expected = new BigDecimal(9);
         BigDecimal result =  rate.calculate(new Period(10,13));
         Assertions.assertEquals(expected,result);
     }
