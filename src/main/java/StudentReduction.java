@@ -4,6 +4,7 @@ public class StudentReduction implements ReductionRate {
     double amountOverBaseAmount = 0;
     double getReduction = 0;
     double totalToPay = 0;
+
     public StudentReduction() {
 
     }
