@@ -466,7 +466,7 @@ public class BolgerMichelleTestTask1 {
         BigDecimal normalRate = new BigDecimal(5);
         BigDecimal reducedRate = new BigDecimal(3);
         rate = new Rate(CarParkKind.STUDENT,normalRate,reducedRate,reducedPeriods,normalPeriods);
-        BigDecimal expected = new BigDecimal(7);
+        BigDecimal expected = new BigDecimal(6.375);
         BigDecimal result =  rate.calculate(new Period(10,13));
         Assertions.assertEquals(expected,result);
     }
@@ -479,11 +479,43 @@ public class BolgerMichelleTestTask1 {
         reducedPeriods = new ArrayList<Period>() {{
             add(0,new Period(10,13));
         }};
-        BigDecimal normalRate = new BigDecimal(5);
+        BigDecimal normalRate = new BigDecimal(5.50);
         BigDecimal reducedRate = new BigDecimal(3);
         rate = new Rate(CarParkKind.STUDENT,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(5.50);
-        BigDecimal result =  rate.calculate(new Period(10,12));
+        BigDecimal result =  rate.calculate(new Period(8,9));
+        Assertions.assertEquals(expected,result);
+    }
+    @Test
+    @DisplayName("Check if management minimum payable is 4.00")
+    void managementReductionIfFour(){
+        normalPeriods = new ArrayList<Period>() {{
+            add(0,new Period(8,10));
+        }};
+        reducedPeriods = new ArrayList<Period>() {{
+            add(0,new Period(10,13));
+        }};
+        BigDecimal normalRate = new BigDecimal(5);
+        BigDecimal reducedRate = new BigDecimal(3);
+        rate = new Rate(CarParkKind.MANAGEMENT,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        BigDecimal expected = new BigDecimal(4);
+        BigDecimal result =  rate.calculate(new Period(11,12));
+        Assertions.assertEquals(expected,result);
+    }
+    @Test
+    @DisplayName("Check if management minimum payable is over 4.00")
+    void managementReductionIfOverFour(){
+        normalPeriods = new ArrayList<Period>() {{
+            add(0,new Period(8,10));
+        }};
+        reducedPeriods = new ArrayList<Period>() {{
+            add(0,new Period(10,13));
+        }};
+        BigDecimal normalRate = new BigDecimal(5);
+        BigDecimal reducedRate = new BigDecimal(3);
+        rate = new Rate(CarParkKind.MANAGEMENT,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        BigDecimal expected = new BigDecimal(11);
+        BigDecimal result =  rate.calculate(new Period(9,12));
         Assertions.assertEquals(expected,result);
     }
 }
