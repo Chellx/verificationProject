@@ -5,6 +5,7 @@ public class ManagementReduction implements ReductionRate {
     public ManagementReduction() {
 
     }
+
     @Override
     public double kindReduction(double stayAmount) {
         if(stayAmount >= 1 && stayAmount <= 3){
