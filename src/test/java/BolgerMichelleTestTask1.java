@@ -420,4 +420,38 @@ public class BolgerMichelleTestTask1 {
                 rate = new Rate(CarParkKind.VISITOR,normalRate,reducedRate,reducedPeriods,normalPeriods));
         Assertions.assertEquals("The periods overlaps", exception.getMessage());
     }
+
+    @Test
+    @DisplayName("Check if staff amount is above 16")
+    void staffReductionAboveSixteen(){
+        normalPeriods = new ArrayList<Period>() {{
+            add(0,new Period(8,10));
+        }};
+        reducedPeriods = new ArrayList<Period>() {{
+            add(0,new Period(10,13));
+        }};
+        BigDecimal normalRate = new BigDecimal(5);
+        BigDecimal reducedRate = new BigDecimal(3);
+        rate = new Rate(CarParkKind.STAFF,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        BigDecimal expected = new BigDecimal(16);
+        BigDecimal result =  rate.calculate(new Period(9,14));
+        Assertions.assertEquals(expected,result);
+    }
+    @Test
+    @DisplayName("Check if staff amount is below 16")
+    void staffReductionBelowSixteen(){
+
+        normalPeriods = new ArrayList<Period>() {{
+            add(0,new Period(8,10));
+        }};
+        reducedPeriods = new ArrayList<Period>() {{
+            add(0,new Period(10,13));
+        }};
+        BigDecimal normalRate = new BigDecimal(5);
+        BigDecimal reducedRate = new BigDecimal(3);
+        rate = new Rate(CarParkKind.STAFF,new BigDecimal(5),new BigDecimal(3),reducedPeriods,normalPeriods);
+        BigDecimal expected = new BigDecimal(11);
+        BigDecimal result =  rate.calculate(new Period(10,13));
+        Assertions.assertEquals(expected,result);
+    }
 }
