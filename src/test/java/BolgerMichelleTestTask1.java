@@ -518,4 +518,36 @@ public class BolgerMichelleTestTask1 {
         BigDecimal result =  rate.calculate(new Period(9,12));
         Assertions.assertEquals(expected,result);
     }
+    @Test
+    @DisplayName("Check if Visitor reduction is over 10")
+    void visitorReductionIsOverTen(){
+        normalPeriods = new ArrayList<Period>() {{
+            add(0,new Period(9,11));
+        }};
+        reducedPeriods = new ArrayList<Period>() {{
+            add(0,new Period(11,13));
+        }};
+        BigDecimal normalRate = new BigDecimal(5);
+        BigDecimal reducedRate = new BigDecimal(3);
+        rate = new Rate(CarParkKind.VISITOR,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        BigDecimal expected = new BigDecimal(3);
+        BigDecimal result =  rate.calculate(new Period(9,13));
+        Assertions.assertEquals(expected,result);
+    }
+    @Test
+    @DisplayName("Check if Visitor reduction is under 10")
+    void visitorReductionIsUnderTen(){
+        normalPeriods = new ArrayList<Period>() {{
+            add(0,new Period(9,11));
+        }};
+        reducedPeriods = new ArrayList<Period>() {{
+            add(0,new Period(11,13));
+        }};
+        BigDecimal normalRate = new BigDecimal(5);
+        BigDecimal reducedRate = new BigDecimal(3);
+        rate = new Rate(CarParkKind.VISITOR,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        BigDecimal expected = new BigDecimal(0);
+        BigDecimal result =  rate.calculate(new Period(9,10));
+        Assertions.assertEquals(expected,result);
+    }
 }
