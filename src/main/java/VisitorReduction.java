@@ -6,6 +6,7 @@ public class VisitorReduction implements ReductionRate {
 
     public VisitorReduction() {
 
+
     }
 
     @Override
