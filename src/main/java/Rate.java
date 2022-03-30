@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rate {
-    private CarParkKind kind;
     private BigDecimal hourlyNormalRate;
     private BigDecimal hourlyReducedRate;
     private ArrayList<Period> reduced = new ArrayList<>();
     private ArrayList<Period> normal = new ArrayList<>();
     private BigDecimal totalToPay;
     ReductionRate reducedReduction;
-    public Rate(CarParkKind kind, BigDecimal normalRate, BigDecimal reducedRate, ArrayList<Period> reducedPeriods
+    public Rate(ReductionRate reducedReduction, BigDecimal normalRate, BigDecimal reducedRate, ArrayList<Period> reducedPeriods
             , ArrayList<Period> normalPeriods) {
         if (reducedPeriods == null || normalPeriods == null) {
             throw new IllegalArgumentException("periods cannot be null");
@@ -32,7 +31,7 @@ public class Rate {
         if (!isValidPeriods(reducedPeriods, normalPeriods)) {
             throw new IllegalArgumentException("The periods overlaps");
         }
-        this.kind = kind;
+        this.reducedReduction = reducedReduction;
         this.hourlyNormalRate = normalRate;
         this.hourlyReducedRate = reducedRate;
         this.reduced = reducedPeriods;
@@ -97,26 +96,8 @@ public class Rate {
         BigDecimal totalStayPeriod = this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours)).add(
                 this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
 
-        if(kind == CarParkKind.STAFF){
-            reducedReduction = new StaffReduction();
-            totalKindReduction = reducedReduction.kindReduction(totalStayPeriod.doubleValue());
-            totalToPay = new BigDecimal(totalKindReduction);
-        }
-        if(kind == CarParkKind.MANAGEMENT){
-            reducedReduction = new ManagementReduction();
-            totalKindReduction = reducedReduction.kindReduction(totalStayPeriod.doubleValue());
-            totalToPay = new BigDecimal(totalKindReduction);
-        }
-        if(kind == CarParkKind.VISITOR){
-            reducedReduction = new VisitorReduction();
-            totalKindReduction = reducedReduction.kindReduction(totalStayPeriod.doubleValue());
-            totalToPay = new BigDecimal(totalKindReduction);
-        }
-        if(kind == CarParkKind.STUDENT){
-            reducedReduction = new StudentReduction();
-            totalKindReduction = reducedReduction.kindReduction(totalStayPeriod.doubleValue());
-            totalToPay = new BigDecimal(totalKindReduction);
-        }
+            totalToPay = new BigDecimal(reducedReduction.kindReduction(totalStayPeriod.doubleValue()));
+
         return totalToPay;
     }
 

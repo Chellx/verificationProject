@@ -1,8 +1,6 @@
 
 package test.java;
-import main.java.CarParkKind;
-import main.java.Period;
-import main.java.Rate;
+import main.java.*;
 import org.junit.jupiter.api.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,8 +11,10 @@ public class BolgerMichelleTestTask1 {
     Rate rate;
     ArrayList<Period> reducedPeriods;
     ArrayList<Period> normalPeriods;
-
-
+    VisitorReduction visitor = new VisitorReduction();
+    StaffReduction staff = new StaffReduction();
+    StudentReduction student = new StudentReduction();
+    ManagementReduction management = new ManagementReduction();
 
     //TestCase 1
     @Test
@@ -34,7 +34,7 @@ public class BolgerMichelleTestTask1 {
         }};
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.STAFF,normalRate,reducedRate,reducedPeriods,normalPeriods));
+                rate = new Rate(staff,normalRate,reducedRate,reducedPeriods,normalPeriods));
         Assertions.assertEquals("A rate cannot be negative", exception.getMessage());
     }
     //TestCase 2
@@ -55,7 +55,7 @@ public class BolgerMichelleTestTask1 {
         Period periodStay = new Period(9,12);
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.STUDENT,normalRate,reducedRate,reducedPeriods,normalPeriods));
+                rate = new Rate(student,normalRate,reducedRate,reducedPeriods,normalPeriods));
         Assertions.assertEquals("A rate cannot be negative", exception.getMessage());
     }
 
@@ -77,7 +77,7 @@ public class BolgerMichelleTestTask1 {
 
         Period periodStay = new Period(9,12);
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.MANAGEMENT,normalRate,reducedRate,reducedPeriods,normalPeriods));
+                rate = new Rate(management,normalRate,reducedRate,reducedPeriods,normalPeriods));
         Assertions.assertEquals("The normal rate cannot be less or equal to the reduced rate", exception.getMessage());
     }
 
@@ -101,7 +101,7 @@ public class BolgerMichelleTestTask1 {
         Period periodStay = new Period(9,12);
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.STAFF,normalRate,reducedRate,reducedPeriods,normalPeriods));
+                rate = new Rate(staff,normalRate,reducedRate,reducedPeriods,normalPeriods));
         Assertions.assertEquals("The periods overlaps", exception.getMessage());
     }
 
@@ -125,7 +125,7 @@ public class BolgerMichelleTestTask1 {
 
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.STAFF,normalRate,reducedRate,reducedPeriods,normalPeriods));
+                rate = new Rate(staff,normalRate,reducedRate,reducedPeriods,normalPeriods));
         Assertions.assertEquals("The periods are not valid individually", exception.getMessage());
     }
     //TestCase 6
@@ -154,7 +154,7 @@ public class BolgerMichelleTestTask1 {
 
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.VISITOR,normalRate,reducedRate,reducedPeriods,normalPeriods));
+                rate = new Rate(visitor,normalRate,reducedRate,reducedPeriods,normalPeriods));
         Assertions.assertEquals("The periods are not valid individually", exception.getMessage());
     }
 
@@ -177,7 +177,7 @@ public class BolgerMichelleTestTask1 {
         BigDecimal reducedRate = new BigDecimal(2);
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.MANAGEMENT,normalRate,reducedRate,reducedPeriods,normalPeriods));
+                rate = new Rate(management,normalRate,reducedRate,reducedPeriods,normalPeriods));
         Assertions.assertEquals("The periods are not valid individually", exception.getMessage());
     }
     //TestCase 8
@@ -202,7 +202,7 @@ public class BolgerMichelleTestTask1 {
 
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.VISITOR,normalRate,reducedRate,reducedPeriods,normalPeriods));
+                rate = new Rate(visitor,normalRate,reducedRate,reducedPeriods,normalPeriods));
         Assertions.assertEquals("The periods are not valid individually", exception.getMessage());
     }
 
@@ -224,7 +224,7 @@ public class BolgerMichelleTestTask1 {
         BigDecimal normalRate = new BigDecimal(0);
         BigDecimal reducedRate = new BigDecimal(0);
 
-        rate = new Rate(CarParkKind.STUDENT,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        rate = new Rate(student,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(0);
         Assertions.assertEquals(expected,rate.calculate(periodStay));
     }
@@ -245,7 +245,7 @@ public class BolgerMichelleTestTask1 {
         BigDecimal reducedRate = new BigDecimal(2);
 
         Period periodStay = new Period(5,7);
-        rate = new Rate(CarParkKind.MANAGEMENT,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        rate = new Rate(management,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(4);
         Assertions.assertEquals(expected,rate.calculate(periodStay));
     }
@@ -266,7 +266,7 @@ public class BolgerMichelleTestTask1 {
         BigDecimal reducedRate = new BigDecimal(2);
 
         Period periodStay = new Period(10,13);
-        rate = new Rate(CarParkKind.VISITOR,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        rate = new Rate(visitor,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(2.5);
         Assertions.assertEquals(expected,rate.calculate(periodStay));
     }
@@ -287,7 +287,7 @@ public class BolgerMichelleTestTask1 {
         BigDecimal reducedRate = new BigDecimal(2);
 
         Period periodStay = new Period(6,15);
-        rate = new Rate(CarParkKind.STAFF,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        rate = new Rate(staff,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(16);
         Assertions.assertEquals(expected,rate.calculate(periodStay));
     }
@@ -309,7 +309,7 @@ public class BolgerMichelleTestTask1 {
 
 
         Period periodStay = new Period(3,8);
-        rate = new Rate(CarParkKind.STAFF,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        rate = new Rate(staff,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(6);
         Assertions.assertEquals(expected,rate.calculate(periodStay));
     }
@@ -329,7 +329,7 @@ public class BolgerMichelleTestTask1 {
         Period periodStay = new Period(3,8);
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.STAFF,normalRate,reducedRate,null,normalPeriods));
+                rate = new Rate(staff,normalRate,reducedRate,null,normalPeriods));
         Assertions.assertEquals("periods cannot be null", exception.getMessage());
     }
 
@@ -348,7 +348,7 @@ public class BolgerMichelleTestTask1 {
         Period periodStay = new Period(3,8);
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.VISITOR,normalRate,reducedRate,reducedPeriods,null));
+                rate = new Rate(visitor,normalRate,reducedRate,reducedPeriods,null));
         Assertions.assertEquals("periods cannot be null", exception.getMessage());
 
     }
@@ -371,7 +371,7 @@ public class BolgerMichelleTestTask1 {
         Period periodStay = new Period(3,8);
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.STUDENT,normalRate,null,reducedPeriods,normalPeriods));
+                rate = new Rate(student,normalRate,null,reducedPeriods,normalPeriods));
         Assertions.assertEquals("The rates cannot be null", exception.getMessage());
 
     }
@@ -395,7 +395,7 @@ public class BolgerMichelleTestTask1 {
         Period periodStay = new Period(3,8);
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.MANAGEMENT,null,reducedRate,reducedPeriods,normalPeriods));
+                rate = new Rate(management,null,reducedRate,reducedPeriods,normalPeriods));
         Assertions.assertEquals("The rates cannot be null", exception.getMessage());
 
     }
@@ -417,7 +417,7 @@ public class BolgerMichelleTestTask1 {
 
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
-                rate = new Rate(CarParkKind.VISITOR,normalRate,reducedRate,reducedPeriods,normalPeriods));
+                rate = new Rate(visitor,normalRate,reducedRate,reducedPeriods,normalPeriods));
         Assertions.assertEquals("The periods overlaps", exception.getMessage());
     }
 
@@ -432,7 +432,7 @@ public class BolgerMichelleTestTask1 {
         }};
         BigDecimal normalRate = new BigDecimal(5);
         BigDecimal reducedRate = new BigDecimal(3);
-        rate = new Rate(CarParkKind.STAFF,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        rate = new Rate(staff,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(14);
         BigDecimal result =  rate.calculate(new Period(9,14));
         Assertions.assertEquals(expected,result);
@@ -449,7 +449,7 @@ public class BolgerMichelleTestTask1 {
         }};
         BigDecimal normalRate = new BigDecimal(5);
         BigDecimal reducedRate = new BigDecimal(3);
-        rate = new Rate(CarParkKind.STAFF,new BigDecimal(5),new BigDecimal(3),reducedPeriods,normalPeriods);
+        rate = new Rate(staff,new BigDecimal(5),new BigDecimal(3),reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(9);
         BigDecimal result =  rate.calculate(new Period(10,13));
         Assertions.assertEquals(expected,result);
@@ -465,7 +465,7 @@ public class BolgerMichelleTestTask1 {
         }};
         BigDecimal normalRate = new BigDecimal(5);
         BigDecimal reducedRate = new BigDecimal(3);
-        rate = new Rate(CarParkKind.STUDENT,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        rate = new Rate(student,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(6.375);
         BigDecimal result =  rate.calculate(new Period(10,13));
         Assertions.assertEquals(expected,result);
@@ -481,7 +481,7 @@ public class BolgerMichelleTestTask1 {
         }};
         BigDecimal normalRate = new BigDecimal(5.50);
         BigDecimal reducedRate = new BigDecimal(3);
-        rate = new Rate(CarParkKind.STUDENT,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        rate = new Rate(student,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(5.50);
         BigDecimal result =  rate.calculate(new Period(8,9));
         Assertions.assertEquals(expected,result);
@@ -497,7 +497,7 @@ public class BolgerMichelleTestTask1 {
         }};
         BigDecimal normalRate = new BigDecimal(5);
         BigDecimal reducedRate = new BigDecimal(3);
-        rate = new Rate(CarParkKind.MANAGEMENT,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        rate = new Rate(management,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(4);
         BigDecimal result =  rate.calculate(new Period(11,12));
         Assertions.assertEquals(expected,result);
@@ -513,7 +513,7 @@ public class BolgerMichelleTestTask1 {
         }};
         BigDecimal normalRate = new BigDecimal(5);
         BigDecimal reducedRate = new BigDecimal(3);
-        rate = new Rate(CarParkKind.MANAGEMENT,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        rate = new Rate(management,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(11);
         BigDecimal result =  rate.calculate(new Period(9,12));
         Assertions.assertEquals(expected,result);
@@ -529,7 +529,7 @@ public class BolgerMichelleTestTask1 {
         }};
         BigDecimal normalRate = new BigDecimal(5);
         BigDecimal reducedRate = new BigDecimal(3);
-        rate = new Rate(CarParkKind.VISITOR,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        rate = new Rate(visitor,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(3);
         BigDecimal result =  rate.calculate(new Period(9,13));
         Assertions.assertEquals(expected,result);
@@ -545,7 +545,7 @@ public class BolgerMichelleTestTask1 {
         }};
         BigDecimal normalRate = new BigDecimal(5);
         BigDecimal reducedRate = new BigDecimal(3);
-        rate = new Rate(CarParkKind.VISITOR,normalRate,reducedRate,reducedPeriods,normalPeriods);
+        rate = new Rate(visitor,normalRate,reducedRate,reducedPeriods,normalPeriods);
         BigDecimal expected = new BigDecimal(0);
         BigDecimal result =  rate.calculate(new Period(9,10));
         Assertions.assertEquals(expected,result);
